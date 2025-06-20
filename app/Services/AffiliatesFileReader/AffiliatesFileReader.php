@@ -30,12 +30,20 @@ class AffiliatesFileReader
 
     public function filterByRange(array $affiliates): array
     {
-        return array_filter($affiliates, function ($affiliate) {
-            return $this->haversineGreatCircleDistance(self::DUBLIN_LAT, self::DUBLIN_LON, $affiliate['latitude'], $affiliate['longitude']) <= self::MAX_DISTANCE_KM;
-        });
+        $filteredAffiliates = [];
+
+        if(!empty($affiliates)) {
+            foreach ($affiliates as $affiliate) {
+                if (isset($affiliate['latitude'], $affiliate['longitude']) && $this->haversineGreatCircleDistance(self::DUBLIN_LAT, self::DUBLIN_LON, (float)$affiliate['latitude'], (float)$affiliate['longitude']) <= self::MAX_DISTANCE_KM) {
+                    $filteredAffiliates[] = $affiliate;
+                }
+            }
+        }
+
+        return $filteredAffiliates;
     }
 
-    private function haversineGreatCircleDistance($latitudeFrom, $longitudeFrom, $latitudeTo, $longitudeTo, $earthRadius = 6371)
+    private function haversineGreatCircleDistance(float $latitudeFrom, float $longitudeFrom, float $latitudeTo, float $longitudeTo, float $earthRadius = 6371)
     {
         // convert from degrees to radians
         $latFrom = deg2rad($latitudeFrom);
