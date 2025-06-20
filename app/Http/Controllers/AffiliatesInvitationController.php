@@ -13,9 +13,9 @@ class AffiliatesInvitationController extends Controller
 
     public function invite(Request $request)
     {
-        // $request->validate([
-        //     'affiliates' => 'required|file|mimetypes:text/plain,application/json',
-        // ]);
+        $request->validate([
+            'affiliates' => 'required|file',
+        ]);
     
         $filteredAffiliatesWithinRange = [];
         $file = $request->file('affiliates');
