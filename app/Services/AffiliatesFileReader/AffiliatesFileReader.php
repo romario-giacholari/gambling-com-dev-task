@@ -6,6 +6,10 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class AffiliatesFileReader
 {
+    public const DUBLIN_LAT = 53.3340285;
+    public const DUBLIN_LON = -6.2535495;
+    public const MAX_DISTANCE_KM = 100;
+
     public function read(UploadedFile $file): array
     {
         $affiliates = [];
@@ -22,5 +26,32 @@ class AffiliatesFileReader
         }
 
         return $affiliates;
+    }
+
+    public function filterByRange(array $affiliates): array
+    {
+        return array_filter($affiliates, function ($affiliate) {
+            return $this->haversineGreatCircleDistance(self::DUBLIN_LAT, self::DUBLIN_LON, $affiliate['latitude'], $affiliate['longitude']) <= self::MAX_DISTANCE_KM;
+        });
+    }
+
+    private function haversineGreatCircleDistance($latitudeFrom, $longitudeFrom, $latitudeTo, $longitudeTo, $earthRadius = 6371)
+    {
+        // convert from degrees to radians
+        $latFrom = deg2rad($latitudeFrom);
+        $lonFrom = deg2rad($longitudeFrom);
+        $latTo = deg2rad($latitudeTo);
+        $lonTo = deg2rad($longitudeTo);
+
+        $latDelta = $latTo - $latFrom;
+        $lonDelta = $lonTo - $lonFrom;
+
+        $a = sin($latDelta / 2) * sin($latDelta / 2) +
+            cos($latFrom) * cos($latTo) *
+            sin($lonDelta / 2) * sin($lonDelta / 2);
+
+        $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+
+        return $earthRadius * $c;
     }
 }
