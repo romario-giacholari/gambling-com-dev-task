@@ -4,7 +4,7 @@ namespace App\Services\AffiliatesFileReader;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class AffiliatesFileReader
+class AffiliatesFileReader implements IAffiliatesFileReader
 {
     public const DUBLIN_LAT = 53.3340285;
     public const DUBLIN_LON = -6.2535495;

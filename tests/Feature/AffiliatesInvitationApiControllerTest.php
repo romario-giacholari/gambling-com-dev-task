@@ -5,11 +5,11 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use Illuminate\Http\UploadedFile;
 
-class AffiliatesInvitationControllerTest extends TestCase
+class AffiliatesInvitationApiControllerTest extends TestCase
 {
     public function testItReturnsASuccessfulResponse()
     {
-        $response = $this->post(route('affiliates.invite'), [
+        $response = $this->post(route('api.affiliates.invite'), [
             'affiliates' => new UploadedFile(
                 base_path('tests/data/affiliates.txt'),
                 'affiliates.json',
@@ -92,7 +92,7 @@ class AffiliatesInvitationControllerTest extends TestCase
 
     public function testItReturnsNotFoundIfNoDataInTheFile()
     {
-        $response = $this->post(route('affiliates.invite'), [
+        $response = $this->post(route('api.affiliates.invite'), [
             'affiliates' => new UploadedFile(
                 base_path('tests/data/invalid-affiliates.txt'),
                 'affiliates.json',

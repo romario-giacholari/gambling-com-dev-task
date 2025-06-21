@@ -4,9 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\AffiliatesFileReader\IAffiliatesFileReader;
-use Inertia\Inertia;
 
-class AffiliatesInvitationController extends Controller
+class AffiliatesInvitationApiController extends Controller
 {
     public function __construct(
         private readonly IAffiliatesFileReader $affiliatesFileReader
@@ -55,7 +54,7 @@ class AffiliatesInvitationController extends Controller
             return $a['affiliate_id'] <=> $b['affiliate_id'];
         });
     
-        return Inertia::render('AffiliatesInvitation', [
+        return response()->json([
             'data' => $filteredAffiliatesWithinRange,
         ]);
     }
