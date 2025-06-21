@@ -17,7 +17,7 @@ class AffiliatesFileReaderTest extends TestCase
         
     }
 
-    public function testItReadAValidFile()
+    public function testItReadsAValidFile()
     {
         $file = new UploadedFile(
             base_path('tests/data/affiliates.txt'),
