@@ -7,7 +7,7 @@ use Illuminate\Http\UploadedFile;
 
 class AffiliatesInvitationControllerTest extends TestCase
 {
-    public function test_returns_a_successful_response()
+    public function testItReturnsASuccessfulResponse()
     {
         $response = $this->post(route('affiliates.invite'), [
             'affiliates' => new UploadedFile(
@@ -88,5 +88,20 @@ class AffiliatesInvitationControllerTest extends TestCase
                 ]
             ]
         ]);
+    }
+
+    public function testItReturnsNotFoundIfNoDataInTheFile()
+    {
+        $response = $this->post(route('affiliates.invite'), [
+            'affiliates' => new UploadedFile(
+                base_path('tests/data/invalid-affiliates.txt'),
+                'affiliates.json',
+                'application/json',
+                null,
+                true
+            ),
+        ]);
+
+        $response->assertStatus(404);
     }
 }
