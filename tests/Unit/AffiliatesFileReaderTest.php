@@ -14,7 +14,6 @@ class AffiliatesFileReaderTest extends TestCase
     {
         parent::setUp();
         $this->affiliatesFileReader = new AffiliatesFileReader();
-        
     }
 
     public function testItReadsAValidFile()
@@ -30,5 +29,20 @@ class AffiliatesFileReaderTest extends TestCase
         $data = $this->affiliatesFileReader->read($file);
 
         $this->assertNotEmpty($data);
+    }
+
+    public function testItDoesNotReadAnInvalidFile()
+    {
+        $file = new UploadedFile(
+            base_path('tests/data/invalid-affiliates.txt'),
+            'affiliates.json',
+            'application/json',
+            null,
+            true
+        );
+
+        $data = $this->affiliatesFileReader->read($file);
+
+        $this->assertEmpty($data);
     }
 }
