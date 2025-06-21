@@ -8,7 +8,7 @@ use App\Services\AffiliatesFileReader\AffiliatesFileReader;
 class AffiliatesInvitationController extends Controller
 {
     public function __construct(
-        private AffiliatesFileReader $affiliatesFileReader
+        private readonly AffiliatesFileReader $affiliatesFileReader
     ) {}
 
     public function invite(Request $request)
