@@ -1,6 +1,7 @@
 # How to run the application?
 ## Prerequisities
 1. Ensure you have `php` and `composer` installed
+2. Install or enable any required php `extensions`
 
 ## How to setup the app?
 1. Clone it first from here(main branch) https://github.com/romario-giacholari/gambling-com-dev-task
