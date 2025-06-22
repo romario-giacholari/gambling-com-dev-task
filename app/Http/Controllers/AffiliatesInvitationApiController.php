@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\AffiliatesFileReader\IAffiliatesFileReader;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class AffiliatesInvitationApiController extends Controller
 {
@@ -13,9 +15,15 @@ class AffiliatesInvitationApiController extends Controller
 
     public function invite(Request $request)
     {
-        $request->validate([
-            'affiliates' => 'required|file',
+        $validator = Validator::make($request->all(), [
+           'affiliates' => 'required|file'
         ]);
+
+        if ($validator->fails()) {
+            throw new HttpResponseException(
+                response()->json(['errors' => $validator->errors()], 422)
+            );
+        }
     
         $filteredAffiliatesWithinRange = [];
         $file = $request->file('affiliates');
